@@ -3,7 +3,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-TOKEN = str(os.getenv('TOKEN'))
-
-ID_OFFTOP = int(os.getenv('ID_OFFTOP'))
-URL_OFFTOP = str(os.getenv('URL_OFFTOP'))
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+OFF_TOP_CHAT_ID = int(os.getenv('OFF_TOP_CHAT_ID'))
+OFF_TOP_CHAT_URL = os.getenv('OFF_TOP_CHAT_URL')
