@@ -50,7 +50,7 @@ async def listen_kick(message: types.Message):
     await message.bot.kick_chat_member(message.chat.id, message.reply_to_message.from_user.id)
 
 
-@dp.message_handler(filters.Command(['kick']), filters.AdminFilter())
+@dp.message_handler(filters.Command(['ban']), filters.AdminFilter())
 async def listen_ban(message: types.Message):
     msg = f"@{message.reply_to_message.from_user.username} has been banned {message.from_user.username}"
 
