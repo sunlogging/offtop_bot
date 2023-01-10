@@ -1,17 +1,16 @@
 import asyncio
 import logging
-import os
 
 from aiogram import Dispatcher, Bot, types
 from aiogram.utils import executor
 from aiogram.dispatcher import filters
 
-from dotenv import load_dotenv
+from settings import ID_OFFTOP, URL_OFFTOP, TOKEN
 
 logging.basicConfig(level=logging.INFO)
-load_dotenv()
 
-bot = Bot(str(os.getenv('TOKEN')))
+
+bot = Bot(TOKEN)
 dp = Dispatcher(bot)
 
 
@@ -29,13 +28,14 @@ async def command_main(message: types.Message):
 
 @dp.message_handler(filters.Command(['of']), filters.AdminFilter())
 async def listen_of(message: types.Message):
-    msg = f"Who sent offtopic: @{message.from_user.username} \nUser from: @{message.reply_to_message.from_user.username}\n" + message.reply_to_message.text
-    await bot.send_message(int(os.getenv('ID_OFFTOP')), msg)
+    msg = f"Who sent offtopic: @{message.from_user.username}"
+    await bot.send_message(ID_OFFTOP, msg)
+    await bot.forward_message(ID_OFFTOP, message.chat.id, message.message_id)
 
     await bot.delete_message(message.chat.id, message.message_id)
     await bot.delete_message(message.chat.id, message.reply_to_message.message_id)
 
-    msg = f"@{message.reply_to_message.from_user.username}, Your message has been sent @{message.from_user.username} in offtopic chat. {str(os.getenv('URL_OFFTOP'))}"
+    msg = f"@{message.reply_to_message.from_user.username}, Your message has been sent @{message.from_user.username} in offtopic chat. {URL_OFFTOP}"
     bot_message = await bot.send_message(message.chat.id, msg)
 
     await asyncio.sleep(10)
