@@ -6,8 +6,8 @@ Guide for .env
 BOT_TOKEN=
 
 #this id and url group where will we redirect
-OFF_TOP_CHAT_ID= this 
-OFF_TOP_CHAT_URL=https://t.me/efjkioerjgjoerjio
+OFF_TOP_CHAT_ID=
+OFF_TOP_CHAT_URL=
 
 # 0 - false
 # 1 - true
