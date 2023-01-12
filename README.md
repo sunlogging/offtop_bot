@@ -16,9 +16,9 @@ STATISTICS=1
 
 #webhook settings
 WEBHOOK_PATH=""
-WEBHOOK_URL="https://b3f5-46-211-234-79.eu.ngrok.io"
-WEBAPP_HOST='127.0.0.1'
-WEBAPP_PORT=5051
+WEBHOOK_URL=""
+WEBAPP_HOST=''
+WEBAPP_PORT=0
 
 #path for bd
 DATABASE_STATISTICS=database.bd
