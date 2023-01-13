@@ -12,12 +12,21 @@ async def database_test():
 
         logging.info("Database found")
 
-        tables = await check_table_exists(DATABASE_STATISTICS, 'statistic')
+        tables = await check_table_exists(DATABASE_STATISTICS, ['statistic', 'statistic_hour'])
         if not tables:
             if not DATABASE_STATISTICS_AUTO:
                 logging.critical("Not found table for statistic")
                 exit()
 
-            await create_table_statistic(DATABASE_STATISTICS)
+            await create_table_statistic(DATABASE_STATISTICS, """CREATE TABLE "statistic" (
+        "username"	TEXT NOT NULL,
+        "id"	INTEGER NOT NULL UNIQUE,
+        "count"	INTEGER NOT NULL DEFAULT 0
+    );""")
+            await create_table_statistic(DATABASE_STATISTICS, """CREATE TABLE "statistic_hour" (
+	"hour"	INTEGER NOT NULL UNIQUE,
+	"count"	INTEGER NOT NULL DEFAULT 0
+);;""")
+
 
         logging.info("Table found")

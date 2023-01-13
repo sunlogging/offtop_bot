@@ -33,4 +33,9 @@ CREATE TABLE "statistic" (
 	"id"	INTEGER NOT NULL UNIQUE,
 	"count"	INTEGER NOT NULL DEFAULT 0
 );
+
+CREATE TABLE "statistic_hour" (
+	"hour"	INTEGER NOT NULL UNIQUE,
+	"count"	INTEGER NOT NULL DEFAULT 0
+);
 ```

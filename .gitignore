@@ -10,3 +10,8 @@ venv.bak/
 
 test.py
 database.bd
+
+database.bd-wal
+database.bd-shm
+
+active_last_hour.svg

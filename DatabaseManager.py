@@ -15,27 +15,23 @@ async def update_count(id: int):
         await db.commit()
 
 
-async def create_table_statistic(db):
+async def create_table_statistic(db, sql):
     async with aiosqlite.connect(db) as db:
         c = await db.cursor()
-        sql = """CREATE TABLE "statistic" (
-        "username"	TEXT NOT NULL,
-        "id"	INTEGER NOT NULL UNIQUE,
-        "count"	INTEGER NOT NULL DEFAULT 0
-    );"""
+
 
         await c.execute(sql)
         await db.commit()
 
 
-async def check_table_exists(db, table_name):
+async def check_table_exists(db, tables_name):
     async with aiosqlite.connect(db) as db:
         c = await db.cursor()
         await c.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = await c.fetchall()
         name_tables = [table[0] for table in tables]
 
-        if table_name in name_tables:
+        if list(set(tables_name) & set(name_tables)) == tables_name:
             return True
         else:
             return False
@@ -78,3 +74,26 @@ async def clear_statistic_table():
         await c.execute("DELETE FROM statistic")
 
         await db.commit()
+
+
+async def update_hour_count(hour: int):
+    async with aiosqlite.connect(settings.DATABASE_STATISTICS) as db:
+        c = await db.cursor()
+
+        await c.execute("SELECT * FROM statistic_hour WHERE hour=?", (hour,))
+        result = await c.fetchone()
+
+        if result is None:
+            await c.execute("INSERT INTO statistic_hour (hour, count) VALUES (?, ?)", (hour, 1))
+        else:
+            await c.execute("UPDATE statistic_hour SET count=count+1 WHERE hour=?", (hour,))
+
+        await db.commit()
+
+
+async def get_hours():
+    async with aiosqlite.connect(settings.DATABASE_STATISTICS) as db:
+        c = await db.cursor()
+        await c.execute("SELECT * FROM statistic_hour ORDER BY hour DESC")
+        result = await c.fetchall()
+        return result

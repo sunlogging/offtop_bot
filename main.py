@@ -4,6 +4,7 @@ from typing import Optional
 
 from aiogram import Dispatcher, Bot, types
 from aiogram.dispatcher import filters
+from aiogram.types import InputFile
 from aiogram.utils import executor
 
 # webhook
@@ -12,7 +13,9 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 
 import Tests
 import settings
-from DatabaseManager import get_statistic, clear_statistic_table, search_id, add_user, update_count
+from DatabaseManager import get_statistic, clear_statistic_table, search_id, add_user, update_count, update_hour_count, \
+    get_hours
+from GenSchedule import create_schedule
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(settings.BOT_TOKEN)
@@ -158,6 +161,10 @@ async def stat_listen_get(message: types.Message):
                 msg += f" {index_top + 1}. <i>{user[2]}</i> @{user[0]}\n"
 
         msg += f"\n@{stat[0][0]} <b>Wrote the most messages.</b> {stat[0][2]}\n\n"
+
+        await create_schedule()
+
+        await bot.send_document(chat_id=message.chat.id, document=InputFile('active_last_hours.html'))
         await bot.send_message(message.chat.id,
                                msg,
                                parse_mode="HTML")
@@ -178,7 +185,7 @@ async def stat_listen_clear(message: types.Message):
                            msg,
                            parse_mode="HTML")
 
-
+#TODO
 @dp.message_handler(content_types=['text'])
 @check_permission_for_stat
 async def add_to_stat(message: types.Message):
@@ -187,6 +194,7 @@ async def add_to_stat(message: types.Message):
         await add_user(message.from_user.username, message.from_user.id)
         return
     await update_count(message.from_user.id)
+    await update_hour_count(message.date.hour)
 
 
 if __name__ == '__main__':
