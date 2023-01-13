@@ -10,9 +10,8 @@ def y(row, index):
     return row['q']['y'][0]
 
 
-async def create_schedule():
+async def create_schedule_last_hour():
     data_logs = await get_hours()
-    print(data_logs)
     data = [{'x': dl[0], 'q': { 'y': [dl[1]] }} for dl in data_logs]
 
     chart = leather.Chart('Active last hours')

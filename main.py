@@ -3,19 +3,18 @@ import logging
 from typing import Optional
 
 from aiogram import Dispatcher, Bot, types
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.dispatcher import filters
 from aiogram.types import InputFile
 from aiogram.utils import executor
-
 # webhook
 from aiogram.utils.executor import start_webhook
-from aiogram.contrib.middlewares.logging import LoggingMiddleware
 
 import Tests
 import settings
-from DatabaseManager import get_statistic, clear_statistic_table, search_id, add_user, update_count, update_hour_count, \
-    get_hours
-from GenSchedule import create_schedule
+from DatabaseManager import get_statistic, clear_statistic_table, search_id, add_user, update_count, update_hour_count
+from GenSchedule import create_schedule_last_hour
+from Tools import get_note_for_user
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(settings.BOT_TOKEN)
@@ -141,6 +140,12 @@ def check_permission_for_stat(func):
 
     return check
 
+#filters.AdminFilter()
+@dp.message_handler(filters.Command(['all', 'everyone', 'everything', 'everybody', 'anything'], prefixes='!'))
+async def listen_all(message: types.Message):
+    users_admin = await bot.get_chat_administrators(message.chat.id)
+    print(users_admin)
+
 
 # TODO create content types = ALL
 @dp.message_handler(filters.Command(commands='get', prefixes='!'))
@@ -152,17 +157,16 @@ async def stat_listen_get(message: types.Message):
     try:
         for index_top, user in enumerate(stat):
             if index_top == 0:
-                msg += f"🥇 <i>{user[2]}</i> @{user[0]}\n"
+                msg += f"🥇 <i>{user[2]}</i> {get_note_for_user()}{user[0]}\n"
             elif index_top == 1:
-                msg += f"🥈 <i>{user[2]}</i> @{user[0]}\n"
+                msg += f"🥈 <i>{user[2]}</i> {get_note_for_user()}{user[0]}\n"
             elif index_top == 2:
-                msg += f"🥉 <i>{user[2]}</i> @{user[0]}\n"
+                msg += f"🥉 <i>{user[2]}</i> {get_note_for_user()}{user[0]}\n"
             else:
-                msg += f" {index_top + 1}. <i>{user[2]}</i> @{user[0]}\n"
+                msg += f" {index_top + 1}. <i>{user[2]}</i> {get_note_for_user()}{user[0]}\n"
 
-        msg += f"\n@{stat[0][0]} <b>Wrote the most messages.</b> {stat[0][2]}\n\n"
-
-        await create_schedule()
+        msg += f"\n{stat[0][0]} <b>Wrote the most messages.</b> {stat[0][2]}\n\n"
+        await create_schedule_last_hour()
 
         await bot.send_document(chat_id=message.chat.id, document=InputFile('active_last_hours.html'))
         await bot.send_message(message.chat.id,
@@ -185,7 +189,8 @@ async def stat_listen_clear(message: types.Message):
                            msg,
                            parse_mode="HTML")
 
-#TODO
+
+# TODO
 @dp.message_handler(content_types=['text'])
 @check_permission_for_stat
 async def add_to_stat(message: types.Message):

@@ -14,4 +14,4 @@ database.bd
 database.bd-wal
 database.bd-shm
 
-active_last_hour.svg
+active_last_hours.html
