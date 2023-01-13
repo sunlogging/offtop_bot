@@ -6,8 +6,8 @@ Guide for .env
 BOT_TOKEN=
 
 #this id and url group where will we redirect
-OFF_TOP_CHAT_ID= this 
-OFF_TOP_CHAT_URL=https://t.me/efjkioerjgjoerjio
+OFF_TOP_CHAT_ID=
+OFF_TOP_CHAT_URL=
 
 # 0 - false
 # 1 - true
@@ -16,9 +16,9 @@ STATISTICS=1
 
 #webhook settings
 WEBHOOK_PATH=""
-WEBHOOK_URL="https://b3f5-46-211-234-79.eu.ngrok.io"
-WEBAPP_HOST='127.0.0.1'
-WEBAPP_PORT=5051
+WEBHOOK_URL=""
+WEBAPP_HOST=''
+WEBAPP_PORT=0
 
 #path for bd
 DATABASE_STATISTICS=database.bd
@@ -31,11 +31,6 @@ To create database.bd use this command
 CREATE TABLE "statistic" (
 	"username"	TEXT NOT NULL,
 	"id"	INTEGER NOT NULL UNIQUE,
-	"count"	INTEGER NOT NULL DEFAULT 0
-);
-
-CREATE TABLE "statistic_hour" (
-	"hour"	INTEGER NOT NULL UNIQUE,
 	"count"	INTEGER NOT NULL DEFAULT 0
 );
 ```

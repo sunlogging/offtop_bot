@@ -26,7 +26,7 @@ async def database_test():
             await create_table_statistic(DATABASE_STATISTICS, """CREATE TABLE "statistic_hour" (
 	"hour"	INTEGER NOT NULL UNIQUE,
 	"count"	INTEGER NOT NULL DEFAULT 0
-);;""")
+);""")
 
 
         logging.info("Table found")
