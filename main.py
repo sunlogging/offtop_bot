@@ -7,18 +7,18 @@ from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.dispatcher import filters
 from aiogram.types import InputFile
 from aiogram.utils import executor
-# webhook
 from aiogram.utils.executor import start_webhook
 
-import Tests
+import tools
 import settings
-from DatabaseManager import get_statistic, clear_statistic_table, search_id, add_user, update_count, update_hour_count
-from GenSchedule import create_schedule_last_hour
-from Tools import get_note_for_user
+from database_manager import get_statistic, clear_statistic_table, search_id, add_user, update_count, update_hour_count
+from gen_schedule import create_schedule_last_hour
+from tools import get_note_for_user
 
 logging.basicConfig(level=logging.INFO)
 bot = Bot(settings.BOT_TOKEN)
 dp = Dispatcher(bot)
+
 
 
 def is_reply(message: types.Message) -> bool:
@@ -56,7 +56,7 @@ async def get_chat_id(message: types.Message):
 # command
 @dp.message_handler(commands=['start'])
 async def command_main(message: types.Message):
-    await Tests.database_test()
+
     bot_message = await bot.send_message(message.chat.id,
                                          'Bot is active')
 
@@ -128,23 +128,36 @@ async def on_shutdown(dp):
     logging.warning('Bye!')
 
 
-# stat
-
-
 def check_permission_for_stat(func):
     async def check(message):
-        if settings.STATISTICS:
+        if settings.USE_STATISTICS:
             await func(message)
         else:
             pass
 
     return check
 
+from aiogram.utils.markdown import hlink
 #filters.AdminFilter()
-@dp.message_handler(filters.Command(['all', 'everyone', 'everything', 'everybody', 'anything'], prefixes='!'))
-async def listen_all(message: types.Message):
-    users_admin = await bot.get_chat_administrators(message.chat.id)
-    print(users_admin)
+@dp.message_handler(filters.Command('all', prefixes='!'),
+                    )
+async def listen_all_command(message: types.Message):
+    stat = await get_statistic()
+    msg = ''
+    try:
+        for user in stat:
+            msg += hlink(f"@{user[0]}", f'tg://user?id={user[1]}') + "\n"
+        a = await bot.send_message(message.chat.id,
+                                msg, parse_mode="HTML")
+
+        """await asyncio.sleep(5)
+
+        await bot.edit_message_text('@all',message.chat.id, a.message_id)"""
+    except IndexError:
+        msg = "Statistics is empty"
+        await bot.send_message(message.chat.id,
+                               msg,
+                               parse_mode="HTML")
 
 
 # TODO create content types = ALL
@@ -190,20 +203,33 @@ async def stat_listen_clear(message: types.Message):
                            parse_mode="HTML")
 
 
-# TODO
+
+
+# TODO media
 @dp.message_handler(content_types=['text'])
 @check_permission_for_stat
 async def add_to_stat(message: types.Message):
     ids = await search_id(message.from_user.id)
     if not ids:
+        print(message.from_user.username, message.from_user.id)
         await add_user(message.from_user.username, message.from_user.id)
+
         return
+    print(message.text.split(' '))
+    if '!all' in message.text.split(' '):
+
+        await listen_all_command(message)
+
     await update_count(message.from_user.id)
     await update_hour_count(message.date.hour)
 
 
 if __name__ == '__main__':
-    if settings.WEBHOOK:
+
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(tools.database_test())
+
+    if settings.USE_WEBHOOK:
         dp.middleware.setup(LoggingMiddleware())
 
         start_webhook(

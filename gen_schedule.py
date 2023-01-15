@@ -1,6 +1,6 @@
 import leather
 
-from DatabaseManager import get_hours
+from database_manager import get_hours
 
 
 def x(row, index):

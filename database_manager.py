@@ -1,6 +1,3 @@
-from sqlite3 import Row
-from typing import Iterable
-
 import aiosqlite
 
 import settings
@@ -30,12 +27,22 @@ async def check_table_exists(db, tables_name):
         await c.execute("SELECT name FROM sqlite_master WHERE type='table';")
         tables = await c.fetchall()
         name_tables = [table[0] for table in tables]
-
-        if list(set(tables_name) & set(name_tables)) == tables_name:
+        if len(list(set(tables_name) & set(name_tables))) == len(tables_name):
             return True
         else:
             return False
 
+async def search_id(id: int):
+    async with aiosqlite.connect(settings.DATABASE_STATISTICS) as db:
+        c = await db.cursor()
+
+        await c.execute("SELECT * FROM statistic WHERE id=?", (id,))
+        result = await c.fetchone()
+
+        if result is None:
+            return False
+        else:
+            return True
 
 async def add_user(username: str, id: int):
     async with aiosqlite.connect(settings.DATABASE_STATISTICS) as db:
@@ -63,7 +70,7 @@ async def statistic_exists(id: int) -> bool :  # naming
         result = await c.fetchone()
 
   
-        return result is None:
+        return result is None
         
 
 async def clear_statistic_table():
