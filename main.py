@@ -178,7 +178,7 @@ async def stat_listen_get(message: types.Message):
             else:
                 msg += f" {index_top + 1}. <i>{user[-1]}</i> {get_note_for_user()}{user[0]}\n"
 
-        msg += f"\n{stat[0][0]} <b>Wrote the most messages.</b> {stat[0][2]}\n\n"
+        msg += f"\n{stat[0][0]} <b>Wrote the most messages.</b> {stat[0][-1]}\n\n"
         await create_schedule_last_hour()
 
         await bot.send_document(chat_id=message.chat.id, document=InputFile('active_last_hours.html'))
