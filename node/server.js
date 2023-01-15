@@ -24,7 +24,6 @@ http.createServer(function (req, res) {
             });
             break;
 
-
         case '/':
             //Main
             res.writeHead(200, { 'Content-Type': 'text/html' });
