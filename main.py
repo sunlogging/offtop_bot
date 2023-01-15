@@ -8,9 +8,10 @@ from aiogram.dispatcher import filters
 from aiogram.types import InputFile
 from aiogram.utils import executor
 from aiogram.utils.executor import start_webhook
+from aiogram.utils.markdown import hlink
 
-import tools
 import settings
+import tools
 from database_manager import get_statistic, clear_statistic_table, search_id, add_user, update_count, update_hour_count
 from gen_schedule import create_schedule_last_hour
 from tools import get_note_for_user
@@ -137,10 +138,9 @@ def check_permission_for_stat(func):
 
     return check
 
-from aiogram.utils.markdown import hlink
-#filters.AdminFilter()
-@dp.message_handler(filters.Command('all', prefixes='!'),
-                    )
+
+
+@dp.message_handler(filters.Command('all', prefixes='!'), filters.AdminFilter())
 async def listen_all_command(message: types.Message):
     stat = await get_statistic()
     msg = ''
@@ -164,19 +164,19 @@ async def listen_all_command(message: types.Message):
 @dp.message_handler(filters.Command(commands='get', prefixes='!'))
 @check_permission_for_stat
 async def stat_listen_get(message: types.Message):
-    stat = await get_statistic()
+    stat = await get_statistic(message.chat.id)
     msg = ""
 
     try:
         for index_top, user in enumerate(stat):
             if index_top == 0:
-                msg += f"🥇 <i>{user[2]}</i> {get_note_for_user()}{user[0]}\n"
+                msg += f"🥇 <i>{user[-1]}</i> {get_note_for_user()}{user[0]}\n"
             elif index_top == 1:
-                msg += f"🥈 <i>{user[2]}</i> {get_note_for_user()}{user[0]}\n"
+                msg += f"🥈 <i>{user[-1]}</i> {get_note_for_user()}{user[0]}\n"
             elif index_top == 2:
-                msg += f"🥉 <i>{user[2]}</i> {get_note_for_user()}{user[0]}\n"
+                msg += f"🥉 <i>{user[-1]}</i> {get_note_for_user()}{user[0]}\n"
             else:
-                msg += f" {index_top + 1}. <i>{user[2]}</i> {get_note_for_user()}{user[0]}\n"
+                msg += f" {index_top + 1}. <i>{user[-1]}</i> {get_note_for_user()}{user[0]}\n"
 
         msg += f"\n{stat[0][0]} <b>Wrote the most messages.</b> {stat[0][2]}\n\n"
         await create_schedule_last_hour()
@@ -206,16 +206,15 @@ async def stat_listen_clear(message: types.Message):
 
 
 # TODO media
-@dp.message_handler(content_types=['text'])
+@dp.message_handler(content_types=[])
 @check_permission_for_stat
 async def add_to_stat(message: types.Message):
+    print(1)
     ids = await search_id(message.from_user.id)
     if not ids:
-        print(message.from_user.username, message.from_user.id)
-        await add_user(message.from_user.username, message.from_user.id)
+        await add_user(message.from_user.username, message.from_user.id, message.chat.id)
 
         return
-    print(message.text.split(' '))
     if '!all' in message.text.split(' '):
 
         await listen_all_command(message)

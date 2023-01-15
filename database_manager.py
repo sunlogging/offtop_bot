@@ -7,7 +7,7 @@ async def update_count(id: int):
     async with aiosqlite.connect(settings.DATABASE_STATISTICS) as db:
         c = await db.cursor()
         await c.execute("SELECT count FROM statistic WHERE id=?", (id,))  # Що таке count ? count це зарезервоване ім'я ф-ці в самому SQL, невже нема проблем?
-        count = await c.fetchone() # А якщо нічого нема по такому id ?
+        count = await c.fetchone()
         await c.execute("UPDATE statistic SET count=? WHERE id=?", (count[0] + 1, id))
         await db.commit()
 
@@ -44,19 +44,19 @@ async def search_id(id: int):
         else:
             return True
 
-async def add_user(username: str, id: int):
+async def add_user(username: str, id: int, chat_id: int):
     async with aiosqlite.connect(settings.DATABASE_STATISTICS) as db:
         c = await db.cursor()
         await c.execute(
-            "INSERT INTO statistic (username, id, count) VALUES (?, ?, ?)",
-            (username, id, 1))
+            "INSERT INTO statistic (username, id, chat_id, count) VALUES (?, ?, ?, ?)",
+            (username, id, chat_id, 1))
         await db.commit()
 
 
-async def get_statistic():
+async def get_statistic(chat_id: int):
     async with aiosqlite.connect(settings.DATABASE_STATISTICS) as db:
         c = await db.cursor()
-        await c.execute("SELECT * FROM statistic ORDER BY count DESC")
+        await c.execute("SELECT * FROM statistic WHERE chat_id=? ORDER BY count DESC", (chat_id,))
         columns = await c.fetchall()
 
         return columns
@@ -103,6 +103,4 @@ async def get_hours():
         result = await c.fetchall()
         return result
 
- # Що трапится якщо треба буде виклати декілька ф-цій по черзі, підряд ? Буде відкриватись закривитись з'єднання постійно?  
-    
     
