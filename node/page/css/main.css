@@ -1,0 +1,14 @@
+a.off-top-bot {
+position: absolute;
+width: 425px;
+height: 90px;
+left: 150px;
+top: 40px;
+
+font-family: 'Gafata';
+font-style: normal;
+font-weight: 400;
+font-size: 70px;
+line-height: 79px;
+letter-spacing: 0.05em;
+}
