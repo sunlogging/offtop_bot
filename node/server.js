@@ -17,9 +17,11 @@ http.createServer(function (req, res) {
             });
             break;
 
-        case '/main_style.ttf':
+        case '/Akshar-VariableFont_wght.ttf':
+            console.log(1);
             res.writeHead(200, { 'Content-Type': 'text/css' });
-            fs.readFile('./page/fonts/Gafata-Regular.ttf', (err, data) => {
+            fs.readFile('./page/fonts/Akshar-VariableFont_wght.ttf', (err, data) => {
+                console.log(err);
                 res.end(data);
             });
             break;

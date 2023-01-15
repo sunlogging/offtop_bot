@@ -1,5 +1,14 @@
+@font-face {
+  font-family: 'Akshar Variable Font';
+  src: url('Akshar-VariableFont_wght.ttf') format('truetype');
+}
+
 a {
-
+font-family: 'Akshar Variable Font';
+position: absolute;
+font-style: normal;
+letter-spacing: 0.05em;
 color: #000000;
-
+text-decoration: none !important;
+border: none !important;
 }
