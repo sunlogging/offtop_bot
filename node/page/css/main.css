@@ -1,3 +1,7 @@
+@font-face {
+  font-family: 'Gafata';
+  src: url('main_style.ttf') format('truetype');
+}
 a.off-top-bot {
 position: absolute;
 width: 425px;
