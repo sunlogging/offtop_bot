@@ -1,0 +1,54 @@
+a.m {
+    width: 100px;
+    height: 30px;
+    left: 140px;
+    top: 150px;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 40px;
+}
+
+a.c {
+    width: 100px;
+    height: 30px;
+    left: 340px;
+    top: 150px;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 40px;
+}
+
+a.a {
+    width: 140px;
+    height: 30px;
+    left: 540px;
+    top: 150px;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 40px;
+}
+
+
+div.name {
+    position: absolute;
+    font-family: 'Akshar';
+    width: 400px;
+    height: 65px;
+    left: 140px;
+    top: 480px;
+    font-weight: 400;
+    font-size: 70px;
+    line-height: 77px;
+}
+div.info {
+    position: absolute;
+    font-family: 'Akshar';
+    width: 320px;
+    height: 90px;
+    left: 140px;
+    top: 550px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: 0.05em;
+}

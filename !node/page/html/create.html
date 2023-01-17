@@ -1,0 +1,124 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Create bot</title>
+
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="create.css" rel="stylesheet" type="text/css">
+    <script src="create.js"></script>
+
+</head>
+<body>
+
+<a href="/" class="back">/Back</a>
+
+<div class="main_settings">
+
+    <div class="method">
+        <h6>There should be a telegram bot token</h6>
+        <h4>Token</h4>
+        <input id="token" type="text"/>
+    </div>
+
+    <div class="method">
+        <h6>Main chat id</h6>
+        <h4>Chat ID main</h4>
+        <input id="chat_id_main" type="text"/>
+    </div>
+
+    <div class="method">
+        <h6>Main chat URL</h6>
+        <h4>Chat URL main</h4>
+        <input id="chat_url_main" type="text"/>
+    </div>
+
+    <div class="method">
+        <h6>Chat ID without subject</h6>
+        <h4>Chat id off topic</h4>
+        <input id="chat_id_offtopic" type="text"/>
+    </div>
+
+    <div class="method">
+        <h6>Chat URL without subject</h6>
+        <h4>Chat URL off topic</h4>
+        <input id="chat_url_offtopic" type="text"/>
+    </div>
+
+
+</div>
+
+
+<div class="file_settings">
+    <div class="method">
+        <h6>Folder with .session files</h6>
+            <h4>Path folder session</h4>
+                <input id="path_session" type="text"/>
+    </div>
+    <div class="method">
+        <h6>Folder with .json files</h6>
+            <h4>Path folder json</h4>
+                <input id="path_json" type="text"/>
+    </div>
+    <div class="method">
+        <h6>Path to the database file</h6>
+            <h4>Path db for database</h4>
+                <input id="path_db" type="text"/>
+    </div>
+</div>
+
+<div class="bool_settings">
+    <div class="method">
+        <h6>Enable/Disable bot webhook</h6>
+            <h4>Webhook</h4>
+                <input id="webhook" type="checkbox"/>
+    </div>
+    <div class="method">
+        <h6>Enable/Disable statistics in the bot</h6>
+            <h4>Statistics</h4>
+                <input id="statistics" type="checkbox"/>
+    </div>
+    <div class="method">
+        <h6>Enable/Disable user tag</h6>
+            <h4>Statistics note user</h4>
+                <input id="note_user" type="checkbox"/>
+    </div>
+    <div class="method">
+        <h6>Enable/Disable autocomplete database</h6>
+            <h4>Database auto</h4>
+                <input id="database_auto" type="checkbox"/>
+    </div>
+</div>
+
+<div class="webhook_settings">
+    <div class="method">
+        <h6>The path to the webhook</h6>
+            <h4>Webhook path</h4>
+                <input id="webhook_path" type="text"/>
+    </div>
+    <div class="method">
+        <h6>The URL to the webhook</h6>
+            <h4>Webhook url</h4>
+                <input id="webhook_url" type="text"/>
+    </div>
+    <div class="method">
+        <h6>The id host to the webhook</h6>
+            <h4>Webhook host</h4>
+                <input id="webhook_host" type="text"/>
+    </div>
+    <div class="method">
+        <h6>The port to the webhook</h6>
+            <h4>Webhook port</h4>
+                <input id="webhook_post" type="text"/>
+    </div>
+</div>
+
+<div class="command"></div>
+
+<button onclick="handler()" id="save">Save</button>
+
+
+</body>
+</html>
