@@ -37,5 +37,8 @@ var url = '/send&' + '?' +
 'webhook_host=' + webhook_host + '?' +
 'webhook_post=' + webhook_post
 
-window.open(url, '_blank');
+const xhr = new XMLHttpRequest();
+
+xhr.open("POST", url);
+xhr.send()
 }

@@ -12,12 +12,12 @@ def parser_command(mode: str) -> bool:
     elif mode == 'start':
         return True
 def gui():
-    os.system('start .\\!gui\\gui.exe')
+    os.system('start .\\gui\\cpp\\gui.exe')
 
 def web():
     os.system('start http://127.0.0.1:8088')
     try:
-        os.system('node .\\!node\\server.js')
+        os.system('node .\\gui\\node\\server.js')
     except KeyboardInterrupt:
         print('\n\n\nserver stoped')
 
