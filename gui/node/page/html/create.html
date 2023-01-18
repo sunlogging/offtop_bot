@@ -1,123 +1,133 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
     <meta id="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Create bot</title>
 
     <link href="style.css" rel="stylesheet" type="text/css">
-    <link href="create.css" rel="stylesheet" type="text/css">
     <script src="create.js"></script>
 
 </head>
 <body>
 
-<a href="/" class="back">/Back</a>
+<div class="content">
 
+<header class="header">
+  <a href="/" class="btn btn-dark"> ☚ Back </a>
+</header>
+
+<div class="main">
 <div class="main_settings">
 
-    <div class="method">
-        <h6>There should be a telegram bot token</h6>
-        <h4>Token</h4>
-        <input id="token" type="text"/>
-    </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="token">Token</span>
+    <input type="text" class="form-control" id="token" aria-describedby="basic-addon3">
+  </div>
 
-    <div class="method">
-        <h6>Main chat id</h6>
-        <h4>Chat ID main</h4>
-        <input id="chat_id_main" type="text"/>
-    </div>
 
-    <div class="method">
-        <h6>Main chat URL</h6>
-        <h4>Chat URL main</h4>
-        <input id="chat_url_main" type="text"/>
-    </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="chat_id_main">Main chat ID</span>
+    <input type="text" class="form-control" id="chat_id_main" aria-describedby="basic-addon3">
+  </div>
 
-    <div class="method">
-        <h6>Chat ID without subject</h6>
-        <h4>Chat id off topic</h4>
-        <input id="chat_id_offtopic" type="text"/>
-    </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="chat_url_main">Main chat URL:</span>
+    <input type="text" class="form-control" id="chat_url_main" aria-describedby="basic-addon3">
+  </div>
 
-    <div class="method">
-        <h6>Chat URL without subject</h6>
-        <h4>Chat URL off topic</h4>
-        <input id="chat_url_offtopic" type="text"/>
-    </div>
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="chat_id_offtopic">Chat ID without subject:</span>
+    <input type="text" class="form-control" id="chat_id_offtopic" aria-describedby="basic-addon3">
+  </div>
 
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="chat_url_offtopic">Chat URL without subject:</span>
+    <input type="text" class="form-control" id="chat_url_offtopic" aria-describedby="basic-addon3">
+  </div>
 
 </div>
 
 
 <div class="file_settings">
-    <div class="method">
-        <h6>Folder with .session files</h6>
-            <h4>Path folder session</h4>
-                <input id="path_session" type="text"/>
-    </div>
-    <div class="method">
-        <h6>Folder with .json files</h6>
-            <h4>Path folder json</h4>
-                <input id="path_json" type="text"/>
-    </div>
-    <div class="method">
-        <h6>Path to the database file</h6>
-            <h4>Path db for database</h4>
-                <input id="path_db" type="text"/>
-    </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="path_session">Folder with .session files:</span>
+    <input type="text" class="form-control" id="path_session" aria-describedby="basic-addon3">
+  </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="path_json">Folder with .json files:</span>
+    <input type="text" class="form-control" id="path_json" aria-describedby="basic-addon3">
+  </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="path_db">Path to the database file:</span>
+    <input type="text" class="form-control" id="path_db" aria-describedby="basic-addon3">
+  </div>
+
 </div>
 
 <div class="bool_settings">
-    <div class="method">
-        <h6>Enable/Disable bot webhook</h6>
-            <h4>Webhook</h4>
-                <input id="webhook" type="checkbox"/>
-    </div>
-    <div class="method">
-        <h6>Enable/Disable statistics in the bot</h6>
-            <h4>Statistics</h4>
-                <input id="statistics" type="checkbox"/>
-    </div>
-    <div class="method">
-        <h6>Enable/Disable user tag</h6>
-            <h4>Statistics note user</h4>
-                <input id="note_user" type="checkbox"/>
-    </div>
-    <div class="method">
-        <h6>Enable/Disable autocomplete database</h6>
-            <h4>Database auto</h4>
-                <input id="database_auto" type="checkbox"/>
-    </div>
+
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="webhook">
+    <label class="form-check-label" for="flexSwitchCheckDefault">Webhook</label>
+  </div>
+
+  <div class="form-check form-switch">
+    <input class="form-check-input"  type="checkbox" id="statistics">
+    <label class="form-check-label" for="flexSwitchCheckDefault">Statistics</label>
+  </div>
+
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="note_user">
+    <label class="form-check-label" for="flexSwitchCheckDefault">Statistics note user</label>
+  </div>
+
+  <div class="form-check form-switch">
+    <input class="form-check-input" type="checkbox" id="database_auto">
+    <label class="form-check-label" for="flexSwitchCheckDefault">Database auto</label>
+  </div>
+
 </div>
 
 <div class="webhook_settings">
-    <div class="method">
-        <h6>The path to the webhook</h6>
-            <h4>Webhook path</h4>
-                <input id="webhook_path" type="text"/>
-    </div>
-    <div class="method">
-        <h6>The URL to the webhook</h6>
-            <h4>Webhook url</h4>
-                <input id="webhook_url" type="text"/>
-    </div>
-    <div class="method">
-        <h6>The id host to the webhook</h6>
-            <h4>Webhook host</h4>
-                <input id="webhook_host" type="text"/>
-    </div>
-    <div class="method">
-        <h6>The port to the webhook</h6>
-            <h4>Webhook port</h4>
-                <input id="webhook_post" type="text"/>
-    </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="webhook_path">Webhook path:</span>
+    <input type="text" class="form-control" id="webhook_path" aria-describedby="basic-addon3">
+  </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="webhook_url">The URL to the webhook:</span>
+    <input type="text" class="form-control" id="webhook_url" aria-describedby="basic-addon3">
+  </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="webhook_host">The ID host to the webhook:</span>
+    <input type="text" class="form-control" id="webhook_host" aria-describedby="basic-addon3">
+  </div>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text" id="webhook_post">The port to the webhook:</span>
+    <input type="text" class="form-control" id="webhook_post" aria-describedby="basic-addon3">
+  </div>
+
 </div>
 
-<div class="command"></div>
+</div>
 
-<button onclick="handler()" id="save">Save</button>
+<div class="footer"> <button class="btn btn-success" onclick="handler()" id="save" > Save ✔ </button>
+</div>
+
+</div>
+
 
 
 </body>
