@@ -1,14 +1,35 @@
 @font-face {
-  font-family: 'Akshar Variable Font';
-  src: url('Akshar-VariableFont_wght.ttf') format('truetype');
+  font-family: 'Montserrat', sans-serif;
 }
 
-a {
-font-family: 'Akshar Variable Font';
-font-style: normal;
-letter-spacing: 0.05em;
-color: #000000;
-text-decoration: none !important;
-border: none !important;
+body {
+  font-family: 'Montserrat', sans-serif;
+  width: 100vw;
+  height: 100vh;
+  font-size: 14px;
 }
-h4, h6 {margin: 0;font-family: 'Akshar Variable Font';}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.header , .footer{
+  margin: 1vh;
+  padding: 1vw;
+}
+
+.header > a {
+  font-size: 1.1em;
+}
+
+.btn {
+  font-size: 1.1em;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
