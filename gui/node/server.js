@@ -52,8 +52,7 @@ http.createServer(function (req, res) {
                     console.log(args)
                     fs.writeFileSync('./.env', '')
                     for (let index = 1; index < args.length; index++) {
-                        console.log(args[index])
-                        fs.appendFileSync('./.env', args[index].split('=')[0].toUpperCase() + "=" + args[index].split('=')[1] + '\n')
+                    fs.appendFileSync('./.env', args[index].split('=')[0].toUpperCase() + "=" + args[index].split('=')[1] + '\n')
                     }
                     exec('move_file.bat')
                     break;
