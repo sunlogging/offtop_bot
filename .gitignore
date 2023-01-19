@@ -13,3 +13,4 @@ database.bd
 database.bd-wal
 database.bd-shm
 *.db
+*.log
