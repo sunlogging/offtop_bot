@@ -34,5 +34,12 @@ def updata_info(id_user: int, command: str):
             print(e)
             pass
 
-updata_info(1, 'messages += 1')
+def is_warning(id_user: int):
+    with seesion_sa(autoflush=False, bind=engine) as db:
+        try:
+            user = db.query(Main).filter_by(id_user=id_user).first()
+            return user.warning >= 3
+        except Exception as e:
+            print(e)
+            pass
 

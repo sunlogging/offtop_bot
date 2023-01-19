@@ -4,6 +4,7 @@ from aiogram import types
 
 from _module.command_classic import text
 from _module.tools import is_reply
+from database.Manager import updata_info, is_warning
 
 
 async def start(bot, message: types.Message):
@@ -24,21 +25,33 @@ async def warning(bot, message: types.Message):
         else:
             await bot.send_message(message.chat.id, text.warning_user(1))
         return
-    #TODO WARNING SYSTEM
 
-async def kick(bot, message: types.Message):
-    if not is_reply(message):
+    updata_info(message.reply_to_message.from_user.id, 'warning += 1')
+    if is_warning(message.reply_to_message.from_user.id):
+        await kick(bot, message, message.reply_to_message.from_user.id)
+
+async def kick(bot, message: types.Message, call: int=None):
+    if not is_reply(message) and call is None:
         await bot.send_message(message.chat.id, text.not_reply)
         return
-    await bot.send_message(message.chat.id, text.kick_user(message.reply_to_message.from_user.id, message.from_user.id))
-    await bot.kick_chat_member(message.chat.id, message.from_user.id)
+    else:
+        kick_user = message.reply_to_message.from_user.id
+        admin = message.from_user.id
+        if call is not None:
+            kick_user = call
+            admin = await bot.get_me()
+            print(admin)
+        await bot.send_message(message.chat.id, text.kick_user(kick_user, admin))
+        await bot.kick_chat_member(message.chat.id, kick_user)
+        updata_info(message.from_user.id, 'is_kick = True')
 
 async def ban(bot, message: types.Message):
     if not is_reply(message):
         await bot.send_message(message.chat.id, text.not_reply)
         return
     await bot.send_message(message.chat.id, text.ban_user(message.reply_to_message.from_user.id, message.from_user.id))
-    await bot.ban_chat_member(message.chat.id, message.from_user.id)
+    await bot.ban_chat_member(message.chat.id, message.reply_to_message.from_user.id)
+    updata_info(message.from_user.id, 'is_ban = True')
 
 async def mute(bot, message: types.Message):
     ...

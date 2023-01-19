@@ -48,13 +48,13 @@ http.createServer(function (req, res) {
         if (request_args.length > 1) {
             switch (request_args[0]) {
                 case '/send':
+                    console.log(request_args)
                     var args = request_args[1].split('?');
-                    console.log(args)
                     fs.writeFileSync('./.env', '')
-                    for (let index = 1; index < args.length; index++) {
+                    for (let index = 1; index < args.slice(0, -2).length; index++) {
                     fs.appendFileSync('./.env', args[index].split('=')[0].toUpperCase() + "=" + args[index].split('=')[1] + '\n')
                     }
-                    exec('move_file.bat')
+                    move_env()
                     break;
 
             }
