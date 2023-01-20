@@ -60,3 +60,5 @@ def is_warning(id_user: int):
         except Exception as e:
             print(e)
             pass
+
+create_db()

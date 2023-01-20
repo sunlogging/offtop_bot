@@ -1,6 +1,5 @@
 import logging
 
-
 from aiogram import Dispatcher, Bot
 from aiogram.dispatcher import filters
 from aiogram.utils import executor
@@ -13,10 +12,10 @@ logging.basicConfig(level=logging.INFO)
 bot = ""
 dp = ""
 
+
 def start_bot(config: dict):
     bot = Bot(config.get('TOKEN'))
     dp = Dispatcher(bot)
-
 
     @dp.message_handler(commands='start')
     async def listen_command_start(message: types.Message):
@@ -44,7 +43,7 @@ def start_bot(config: dict):
 
     @dp.message_handler(filters.Command(['all']))
     async def listen_command_all(message: types.Message):
-        ...
+        await all(bot, message)
 
     @dp.message_handler(filters.Command(['of', 'top']))
     async def listen_command_of(message: types.Message):
@@ -52,7 +51,6 @@ def start_bot(config: dict):
             await of_top(bot, message, config.get('CHAT_URL_OFFTOPIC'), config.get('CHAT_ID_OFFTOPIC'))
         elif message.text == '/top':
             await of_top(bot, message, config.get('CHAT_URL_MAIN'), config.get('CHAT_ID_MAIN'))
-
 
     @dp.message_handler(filters.Command(['stat_group'], prefixes='!'))
     async def listen_command_stat_group(message: types.Message):
@@ -77,8 +75,6 @@ def start_bot(config: dict):
     @dp.message_handler(filters.Command(['stat_isspam'], prefixes='!'))
     async def listen_command_stat_isspam(message: types.Message):
         ...
-
-
 
     @dp.message_handler(filters.Command(['check_file'], prefixes='&'))
     async def listen_command_check_file(message: types.Message):
@@ -114,6 +110,13 @@ def start_bot(config: dict):
     @dp.message_handler(content_types=["new_chat_members"])
     async def on_user_joined(message: types.Message):
         await message.delete()
+        group_info = await bot.get_chat(message.chat.id)
+        msg = group_info.bio \
+              + '\n\n\nBefore we allow you to chat, please do a little check to see if you are human.'
+        await bot.send_message(message.chat.id, msg)
+        updata_info(message.from_user.id, 'is_bot = True')
+
+
 
     @dp.message_handler(content_types=["text"])
     async def listen_all_message(message: types.Message):
@@ -122,4 +125,4 @@ def start_bot(config: dict):
         else:
             updata_info(message.from_user.id, 'messages += 1')
 
-    executor.start_polling(dp, skip_updates=True)
+    executor.start_polling(dp, skip_updates=True, timeout=200)

@@ -4,7 +4,7 @@ import logging
 
 logging.basicConfig(filename='./_module/logs/start.log', level=logging.INFO, filemode='w')
 
-NAMEVENV = 'venv2'
+NAMEVENV = 'venv'
 
 logging.info(f'searth {NAMEVENV}')
 if len(glob.glob(NAMEVENV)) < 1:
@@ -22,3 +22,5 @@ if len(glob.glob(NAMEVENV)) < 1:
     logging.info('download req')
 
     os.system(f'start .\\{NAMEVENV}\\Scripts\\python.exe -m pip install -r .\\_module\\logs\\requirements.txt')
+
+
