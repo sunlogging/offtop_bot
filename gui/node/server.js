@@ -9,10 +9,6 @@ const path = require('path');
 
 var exec = require('child_process').execFile;
 
-var move_env = function () {
-    exec('move_file.bat');
-}
-
 function searth_file_for_send(request) {
 
     var name_file = request[0].split('/')[1];
@@ -48,13 +44,14 @@ http.createServer(function (req, res) {
         if (request_args.length > 1) {
             switch (request_args[0]) {
                 case '/send':
-                    console.log(request_args)
                     var args = request_args[1].split('?');
+                    args.pop()
                     fs.writeFileSync('./.env', '')
-                    for (let index = 1; index < args.slice(0, -2).length; index++) {
-                    fs.appendFileSync('./.env', args[index].split('=')[0].toUpperCase() + "=" + args[index].split('=')[1] + '\n')
+                    for (let index = 0; index < args.length; index++) {
+                        console.log(args[index].split('='))
+                        fs.appendFileSync('./.env', args[index].split('=')[0].toUpperCase() + "=" + args[index].split('=')[1] + '\n')
                     }
-                    move_env()
+                    exec('move_file.bat')
                     break;
 
             }
