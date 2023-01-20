@@ -1,10 +1,11 @@
 import asyncio
+from datetime import datetime, timedelta
 
 from aiogram import types
 
-from _module.command_classic import text
+from _module.command import text
 from _module.tools import is_reply
-from database.Manager import updata_info, is_warning
+from database.Manager import updata_info, is_warning, get_users
 
 
 async def start(bot, message: types.Message):
@@ -12,6 +13,7 @@ async def start(bot, message: types.Message):
 
     await asyncio.sleep(3)
     await bot.delete_message(message.chat.id, message_.message_id)
+    await bot.delete_message(message.chat.id, message.chat.id)
 
 async def help(bot, message: types.Message):
     await bot.send_message(message.chat.id, text.help)
@@ -54,10 +56,19 @@ async def ban(bot, message: types.Message):
     updata_info(message.from_user.id, 'is_ban = True')
 
 async def mute(bot, message: types.Message):
-    ...
+    if not is_reply(message):
+        await bot.send_message(message.chat.id, text.not_reply)
+        return
+    if len(message.text.split(' ')) < 2:
+        await bot.send_message(message.chat.id, text.few_arguments)
+    else:
+        await bot.restrict_chat_member(message.chat.id, message.reply_to_message.from_user.id, can_send_messages=False)
+        print(message.text.split(" ")[1])
+        updata_info(message.from_user.id, f'mute = {datetime.now() + timedelta(minutes=int(message.text.split(" ")[1]))}')
 
-async def all(bot, message: types.Message):
-    ...
+async def all(bot, message: types.Message, msg: str = ''):
+    for user in get_users():
+        msg += user
 
 async def of_top(bot, message: types.Message, chat_url: str, chat_id: int):
     if not is_reply(message):
@@ -77,3 +88,6 @@ async def of_top(bot, message: types.Message, chat_url: str, chat_id: int):
 
     await bot.delete_message(message.chat.id, message.message_id)
     await bot.delete_message(message.chat.id, message.reply_to_message.message_id)
+
+
+

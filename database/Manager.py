@@ -1,11 +1,11 @@
 import os
-from pprint import pprint
 
-from database.models import BaseModel, Main
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session as seesion_sa
 
-engine = create_engine("sqlite:///db/stat_group.db", echo=True)
+from database.models import BaseModel, Main
+
+engine = create_engine("sqlite:///database/db/stat_group.db", echo=True)
 
 
 def del_db():
@@ -21,7 +21,25 @@ def add_user(id_user: int, username: str):
         try:
             db.add(Main(id_user=id_user, username=username))
             db.commit()
-        except:
+        except Exception as e:
+            print(e)
+            pass
+
+def get_user(id_user: int):
+    with seesion_sa(autoflush=False, bind=engine) as db:
+        try:
+            return db.query(Main).filter_by(id_user=id_user).first()
+        except Exception as e:
+            print(e)
+            pass
+
+
+def get_users():
+    with seesion_sa(autoflush=False, bind=engine) as db:
+        try:
+            return db.query(Main).all()
+        except Exception as e:
+            print(e)
             pass
 
 def updata_info(id_user: int, command: str):
@@ -42,4 +60,3 @@ def is_warning(id_user: int):
         except Exception as e:
             print(e)
             pass
-

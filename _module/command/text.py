@@ -7,3 +7,4 @@ kick_user = lambda username_user, username_admin: f"{username_user} has been kic
 ban_user = lambda username_user, username_admin: f"{username_user} has been baned. {username_admin}"
 
 not_reply = 'To give a warning to a user, reply to their message.'
+few_arguments = 'Several arguments in favor of using this command! Please read the documentation for using the bot or issue the /help command.'

@@ -5,7 +5,8 @@ from aiogram import Dispatcher, Bot
 from aiogram.dispatcher import filters
 from aiogram.utils import executor
 
-from _module.command_classic.command import *
+from _module.command.command_classic import *
+from database.Manager import add_user, get_user
 
 logging.basicConfig(level=logging.INFO)
 
@@ -39,7 +40,7 @@ def start_bot(config: dict):
 
     @dp.message_handler(filters.Command(['mute']))
     async def listen_command_mute(message: types.Message):
-        ...
+        await mute(bot, message)
 
     @dp.message_handler(filters.Command(['all']))
     async def listen_command_all(message: types.Message):
@@ -109,5 +110,16 @@ def start_bot(config: dict):
             await message.reply(f'Chat id: {message.chat.id} thread_id: {thread_id}')
         else:
             await message.reply(f'Chat id {message.chat.id}')
+
+    @dp.message_handler(content_types=["new_chat_members"])
+    async def on_user_joined(message: types.Message):
+        await message.delete()
+
+    @dp.message_handler(content_types=["text"])
+    async def listen_all_message(message: types.Message):
+        if get_user(message.from_user.id) is None:
+            add_user(message.from_user.id, message.from_user.username)
+        else:
+            updata_info(message.from_user.id, 'messages += 1')
 
     executor.start_polling(dp, skip_updates=True)
