@@ -1,4 +1,5 @@
 INFO:root:searth venv2
 INFO:root:venv2 is not create, wait...
+CRITICAL:root:user stop create venv2
 INFO:root:venv2 create
 INFO:root:download req
